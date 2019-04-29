@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/alensnajder/gatekeeper-api#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "bookshelf": "^0.14.2",
+    "express": "^4.16.4",
+    "knex": "^0.16.5",
+    "sqlite3": "^4.0.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
