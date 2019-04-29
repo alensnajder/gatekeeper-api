@@ -9,6 +9,20 @@ export async function get(req, res, next) {
   }
 }
 
+export async function getById(req, res, next) {
+  try {
+    const user = await User.forge({ id: req.params.id }).fetch();
+
+    if (!user) {
+      return res.status(404).json('Not found');
+    }
+
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
+
 export async function create(req, res, next) {
   try {
     const user = await User.forge({ email: req.body.email }).fetch();
