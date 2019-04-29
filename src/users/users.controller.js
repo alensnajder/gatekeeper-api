@@ -52,3 +52,18 @@ export async function update(req, res, next) {
     return res.status(500).json(err);
   }
 }
+
+export async function remove(req, res, next) {
+  try {
+    const user = await User.forge({ id: req.params.id }).fetch();
+
+    if (!user) {
+      return res.status(404).json('Not found');
+    }
+
+    await user.destroy();
+    return res.status(200).send();
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
