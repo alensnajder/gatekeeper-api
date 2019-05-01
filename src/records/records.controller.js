@@ -31,3 +31,18 @@ export async function create(req, res, next) {
     return res.status(500).json(err);
   }
 }
+
+export async function remove(req, res, next) {
+  try {
+    const record = await Record.forge({ id: req.params.id }).fetch();
+
+    if (!record) {
+      return res.status(404).json('Not found');
+    }
+
+    await record.destroy();
+    return res.status(200).send();
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
