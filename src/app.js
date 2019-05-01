@@ -1,10 +1,15 @@
 import express from 'express';
+import passport from 'passport';
+import authRouter from './auth/auth.router';
 import usersRouter from './users/users.router';
+import passportConfig from './config/passport';
 
 const app = express();
 
 app.use(express.json());
+app.use(passport.initialize());
 
+app.use('/v1/auth', authRouter);
 app.use('/v1/users', usersRouter);
 
 app.listen(3000, () => {
