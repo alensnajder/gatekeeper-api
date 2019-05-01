@@ -4,6 +4,7 @@ import * as RecordsController from './records.controller';
 const router = express.Router();
 
 router.get('/', RecordsController.get);
+router.get('/:id', RecordsController.getById);
 router.post('/', RecordsController.create);
 
 export default router;
