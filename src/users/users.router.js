@@ -1,12 +1,13 @@
 import express from 'express';
 import * as UsersController from './users.controller';
+import passport from 'passport';
 
 const router = express.Router();
 
-router.get('/', UsersController.get);
-router.get('/:id', UsersController.getById);
+router.get('/', passport.authenticate('jwt', { session: false }), UsersController.get);
+router.get('/:id', passport.authenticate('jwt', { session: false }), UsersController.getById);
 router.post('/', UsersController.create);
-router.put('/:id', UsersController.update);
-router.delete('/:id', UsersController.remove);
+router.put('/:id', passport.authenticate('jwt', { session: false }), UsersController.update);
+router.delete('/:id', passport.authenticate('jwt', { session: false }), UsersController.remove);
 
 export default router;
