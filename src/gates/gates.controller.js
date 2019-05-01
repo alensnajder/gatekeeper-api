@@ -9,6 +9,20 @@ export async function get(req, res, next) {
   }
 }
 
+export async function getById(req, res, next) {
+  try {
+    const gate = await Gate.forge({ id: req.params.id }).fetch();
+
+    if (!gate) {
+      return res.status(404).json('Not found');
+    }
+
+    return res.status(200).json(gate);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
+
 export async function create(req, res, next) {
   try {
     await Gate.forge(req.body).save();
