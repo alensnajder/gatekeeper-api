@@ -6,5 +6,6 @@ const router = express.Router();
 router.get('/', GatesController.get);
 router.get('/:id', GatesController.getById);
 router.post('/', GatesController.create);
+router.put('/:id', GatesController.update);
 
 export default router;
