@@ -1,9 +1,13 @@
 import bookshelf from '../config/bookshelf';
 import bcrypt from 'bcrypt';
+import Record from '../records/records.model';
 
 const User = bookshelf.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
+  records: function() {
+    return this.hasMany(Record);
+  },
   async validPassword(password) {
     return await bcrypt.compare(password, this.attributes.password);
   },

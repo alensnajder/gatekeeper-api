@@ -67,3 +67,17 @@ export async function remove(req, res, next) {
     return res.status(500).json(err);
   }
 }
+
+export async function getByIdWithRecords(req, res, next) {
+  try {
+    const user = await User.forge({ id: req.params.id }).fetch({ withRelated: ['records'] });
+
+    if (!user) {
+      return res.status(404).json('Not found');
+    }
+
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
