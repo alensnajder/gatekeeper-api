@@ -2,16 +2,17 @@ import User from './users.model';
 
 export async function get(req, res, next) {
   try {
-    const users = await User.fetchAll();
+    const users = await User.fetchAll({ withRelated: ['roles'] });
     return res.status(200).json(users);
   } catch (err) {
+    console.log(err);
     return res.status(500).json(err);
   }
 }
 
 export async function getById(req, res, next) {
   try {
-    const user = await User.forge({ id: req.params.id }).fetch();
+    const user = await User.forge({ id: req.params.id }).fetch({ withRelated: ['roles'] });
 
     if (!user) {
       return res.status(404).json('Not found');
@@ -26,11 +27,11 @@ export async function getById(req, res, next) {
 export async function create(req, res, next) {
   try {
     const user = await User.forge({ email: req.body.email }).fetch();
-  
+
     if (user) {
       return res.json('User with that e-mail address already exists');
     }
-  
+
     await User.forge(req.body).save();
     return res.status(201).send();
   } catch (err) {
