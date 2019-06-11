@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('last_name').notNull();
     table.string('email').notNull();
     table.string('password').notNull();
-    table.integer('role_id');
+    table.string('role').notNull();
     table.dateTime('created_at').notNull();
     table.dateTime('updated_at').nullable();
   });

@@ -32,9 +32,19 @@ export async function create(req, res, next) {
       return res.json('User with that e-mail address already exists');
     }
 
-    await User.forge(req.body).save();
+    let newUser = req.body;
+    const numberOfUsers = await User.count();
+
+    if (numberOfUsers > 0) {
+      newUser.role = 'user';
+    } else {
+      newUser.role = 'admin';
+    }
+
+    await User.forge(newUser).save();
     return res.status(201).send();
   } catch (err) {
+    console.log(err);
     return res.status(500).json(err);
   }
 }
