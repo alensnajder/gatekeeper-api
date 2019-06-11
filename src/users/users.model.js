@@ -1,16 +1,12 @@
 import bookshelf from '../config/bookshelf';
 import bcrypt from 'bcrypt';
 import Record from '../records/records.model';
-import Role from '../roles/roles.model';
 
 const User = bookshelf.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
   records: function() {
     return this.hasMany(Record);
-  },
-  roles: function() {
-    return this.belongsTo(Role);
   },
   async validPassword(password) {
     return await bcrypt.compare(password, this.attributes.password);
