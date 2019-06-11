@@ -1,6 +1,7 @@
 import bookshelf from '../config/bookshelf';
 import bcrypt from 'bcrypt';
 import Record from '../records/records.model';
+import Role from '../roles/roles.model';
 
 const User = bookshelf.Model.extend({
   tableName: 'users',
@@ -8,11 +9,14 @@ const User = bookshelf.Model.extend({
   records: function() {
     return this.hasMany(Record);
   },
+  roles: function() {
+    return this.belongsTo(Role);
+  },
   async validPassword(password) {
     return await bcrypt.compare(password, this.attributes.password);
   },
   initialize() {
-    this.on('saving', async (model) => {
+    this.on('saving', async(model) => {
       if (!model.hasChanged('password')) {
         return;
       }
