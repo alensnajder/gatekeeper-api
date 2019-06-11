@@ -5,7 +5,6 @@ export async function get(req, res, next) {
     const users = await User.fetchAll({ withRelated: ['roles'] });
     return res.status(200).json(users);
   } catch (err) {
-    console.log(err);
     return res.status(500).json(err);
   }
 }
@@ -44,7 +43,6 @@ export async function create(req, res, next) {
     await User.forge(newUser).save();
     return res.status(201).send();
   } catch (err) {
-    console.log(err);
     return res.status(500).json(err);
   }
 }
