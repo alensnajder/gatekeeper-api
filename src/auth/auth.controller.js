@@ -10,8 +10,8 @@ export async function getAccessToken(req, res, next) {
     }
     const isValidPassword = await user.validPassword(password);
     if (isValidPassword) {
-      const token = jwt.sign(user.toJSON(), 'secret');
-      return res.json({ token: token });
+      const token = jwt.sign(user.toJSON(), process.env.SECRET);
+      return res.json({ access_token: token });
     } else {
       return res.status(401).json('Wrong email or password');
     }
