@@ -25,7 +25,12 @@ export async function getById(req, res, next) {
 
 export async function create(req, res, next) {
   try {
-    await Record.forge(req.body).save();
+    const userId = req.user.id;
+    const newRecord = {
+      user_id: userId,
+      gate_id: req.body.gate_id
+    };
+    await Record.forge(newRecord).save();
     return res.status(200).send();
   } catch (err) {
     return res.status(500).json(err);
