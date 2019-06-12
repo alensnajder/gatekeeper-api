@@ -31,7 +31,13 @@ export async function create(req, res, next) {
       return res.json('User with that e-mail address already exists');
     }
 
-    let newUser = req.body;
+    let newUser = {
+      email: req.body.email,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      password: req.body.password
+    };
+
     const numberOfUsers = await User.count();
 
     if (numberOfUsers > 0) {
