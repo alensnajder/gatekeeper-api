@@ -41,9 +41,11 @@ export async function create(req, res, next) {
     const numberOfUsers = await User.count();
 
     if (numberOfUsers > 0) {
-      newUser.role = 'user';
+      newUser.is_admin = false;
+      newUser.is_active = false;
     } else {
-      newUser.role = 'admin';
+      newUser.is_admin = true;
+      newUser.is_active = true;
     }
 
     await User.forge(newUser).save();
