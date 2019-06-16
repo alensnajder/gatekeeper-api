@@ -48,7 +48,6 @@ export async function getAccessToken(req, res, next) {
         break;
     }
   } catch (err) {
-    console.log(err);
     return res.status(500).json(err);
   }
 }
