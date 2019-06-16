@@ -4,6 +4,6 @@ import { getAccessTokenValidator } from './auth.validator';
 
 const router = express.Router();
 
-router.post('/', getAccessTokenValidator, AuthController.getAccessToken);
+router.post('/', AuthController.getAccessToken);
 
 export default router;
