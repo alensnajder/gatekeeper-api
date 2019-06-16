@@ -5,6 +5,7 @@ import Record from '../records/records.model';
 const User = bookshelf.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
+  hidden: ['password'],
   records: function() {
     return this.hasMany(Record);
   },

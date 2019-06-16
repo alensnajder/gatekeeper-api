@@ -9,5 +9,6 @@ const knex = Knex({
 });
 
 const bookshelf = Bookshelf(knex);
+bookshelf.plugin('visibility');
 
 export default bookshelf;
