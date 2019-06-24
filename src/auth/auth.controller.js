@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../users/users.model';
-import RefreshToken from './refreshToken.model';
+import RefreshToken from './auth.model';
 
 export async function getAccessToken(req, res, next) {
   try {
