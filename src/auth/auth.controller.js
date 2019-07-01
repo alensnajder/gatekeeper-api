@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../users/users.model';
 import RefreshToken from './auth.model';
+import uuidv4 from 'uuid/v4';
 
 export async function getAccessToken(req, res, next) {
   try {
@@ -20,7 +21,7 @@ export async function getAccessToken(req, res, next) {
 
         if (isValidPassword) {
           const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRATION });
-          const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_SECRET_EXPIRATION });
+          const refreshToken = uuidv4();
 
           await RefreshToken.forge({ refresh_token: refreshToken, user_id: user.id }).save();
 
