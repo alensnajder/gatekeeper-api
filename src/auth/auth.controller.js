@@ -20,7 +20,7 @@ export async function getAccessToken(req, res, next) {
         const isValidPassword = await user.validPassword(password);
 
         if (isValidPassword) {
-          const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRATION });
+          const accessToken = generateAccessToken(user.toJSON());
           const refreshToken = uuidv4();
 
           await RefreshToken.forge({ refresh_token: refreshToken, user_id: user.id }).save();
@@ -38,7 +38,7 @@ export async function getAccessToken(req, res, next) {
         const refreshToken = await RefreshToken.forge({ refresh_token }).fetch();
         if (refreshToken) {
           const user = await User.forge({ id: refreshToken.toJSON().user_id }).fetch();
-          const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRATION });
+          const accessToken = generateAccessToken(user.toJSON());
           return res.json({
             access_token: accessToken
           });
@@ -51,4 +51,12 @@ export async function getAccessToken(req, res, next) {
   } catch (err) {
     return res.status(500).json(err);
   }
+}
+
+function generateAccessToken(user) {
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRATION
+  });
+
+  return accessToken;
 }
