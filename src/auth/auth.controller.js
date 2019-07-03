@@ -53,6 +53,25 @@ export async function getAccessToken(req, res, next) {
   }
 }
 
+export async function revokeRefreshToken(req, res, next) {
+  try {
+    if (!req.user.is_admin) {
+      return res.status(403).json('Forbidden');
+    }
+
+    const refreshToken = await RefreshToken.forge({ refresh_token: req.body.refresh_token}).fetch();
+
+    if (!refreshToken) {
+      return res.status(404).json('Not found');
+    }
+
+    await refreshToken.destroy();
+    return res.status(200).send();
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
+
 function generateAccessToken(user) {
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_SECRET_EXPIRATION
