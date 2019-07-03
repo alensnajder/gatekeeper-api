@@ -2,6 +2,10 @@ import User from './users.model';
 
 export async function get(req, res, next) {
   try {
+    if (!req.user.is_admin) {
+      return res.status(403).json('Forbidden');
+    }
+
     const users = await User.fetchAll();
     return res.status(200).json(users);
   } catch (err) {
@@ -11,6 +15,11 @@ export async function get(req, res, next) {
 
 export async function getById(req, res, next) {
   try {
+    const userId = parseInt(req.params.id);
+    if (!req.user.is_admin && req.user.id !== userId) {
+      return res.status(403).json('Forbidden');
+    }
+
     const user = await User.forge({ id: req.params.id }).fetch();
 
     if (!user) {
@@ -57,6 +66,11 @@ export async function create(req, res, next) {
 
 export async function update(req, res, next) {
   try {
+    const userId = parseInt(req.params.id);
+    if (!req.user.is_admin && req.user.id !== userId) {
+      return res.status(403).json('Forbidden');
+    }
+
     const user = await User.forge({ id: req.params.id }).fetch();
 
     if (!user) {
@@ -72,6 +86,11 @@ export async function update(req, res, next) {
 
 export async function remove(req, res, next) {
   try {
+    const userId = parseInt(req.params.id);
+    if (!req.user.is_admin && req.user.id !== userId) {
+      return res.status(403).json('Forbidden');
+    }
+
     const user = await User.forge({ id: req.params.id }).fetch();
 
     if (!user) {
@@ -87,6 +106,11 @@ export async function remove(req, res, next) {
 
 export async function getByIdWithRecords(req, res, next) {
   try {
+    const userId = parseInt(req.params.id);
+    if (!req.user.is_admin && req.user.id !== userId) {
+      return res.status(403).json('Forbidden');
+    }
+    
     const user = await User.forge({ id: req.params.id }).fetch({ withRelated: ['records'] });
 
     if (!user) {

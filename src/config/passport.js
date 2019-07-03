@@ -12,7 +12,7 @@ passport.use(new JwtStrategy({
       if (!user) {
         return done(null, false);
       }
-      return done(null, user);
+      return done(null, user.toJSON());
     } catch (err) {
       return done(err);
     }
