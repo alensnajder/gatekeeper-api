@@ -37,7 +37,7 @@ export async function create(req, res, next) {
     const user = await User.forge({ email: req.body.email }).fetch();
 
     if (user) {
-      return res.json('User with that e-mail address already exists');
+      return res.status(409).json('User with that e-mail address already exists');
     }
 
     let newUser = {
