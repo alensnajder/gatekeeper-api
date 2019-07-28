@@ -58,7 +58,7 @@ export async function create(req, res, next) {
     }
 
     await User.forge(newUser).save();
-    return res.status(201).send();
+    return res.status(201).json(newUser);
   } catch (err) {
     return res.status(500).json(err);
   }
