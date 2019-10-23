@@ -4,72 +4,57 @@ import RefreshToken from './auth.model';
 import uuidv4 from 'uuid/v4';
 
 export async function getAccessToken(req, res, next) {
-  try {
-    const grantType = req.query.grant_type;
+  const grantType = req.query.grant_type;
 
-    switch (grantType) {
-      case 'password':
-        const { email, password } = req.body;
-        const user = await User.forge({ email }).fetch();
-
-        if (!user) {
-          return res.status(401).json('Wrong email or password');
-
-        }
-
-        const isValidPassword = await user.validPassword(password);
-
-        if (isValidPassword) {
-          const accessToken = generateAccessToken(user.toJSON());
-          const refreshToken = uuidv4();
-
-          await RefreshToken.forge({ refresh_token: refreshToken, user_id: user.id }).save();
-
-          return res.json({
-            access_token: accessToken,
-            refresh_token: refreshToken
-          });
-        } else {
-          return res.status(401).json('Wrong email or password');
-        }
-        break;
-      case 'refresh_token':
-        const { refresh_token } = req.body;
-        const refreshToken = await RefreshToken.forge({ refresh_token }).fetch();
-        if (refreshToken) {
-          const user = await User.forge({ id: refreshToken.toJSON().user_id }).fetch();
-          const accessToken = generateAccessToken(user.toJSON());
-          return res.json({
-            access_token: accessToken
-          });
-        }
-
-        return res.json('Unauthorized');
-
-        break;
-    }
-  } catch (err) {
-    return res.status(500).json(err);
+  switch (grantType) {
+    case 'password':
+      getAccessTokenByPasword(req, res);
+      break;
+    case 'refresh_token':
+      getAccessTokenByRefreshToken(req, res);
+      break;
   }
 }
 
-export async function revokeRefreshToken(req, res, next) {
-  try {
-    if (!req.user.is_admin) {
-      return res.status(403).json('Forbidden');
-    }
+async function getAccessTokenByPasword(req, res) {
+  const { email, password } = req.body;
+  const existingUser = await User.forge({ email }).fetch();
 
-    const refreshToken = await RefreshToken.forge({ refresh_token: req.body.refresh_token}).fetch();
-
-    if (!refreshToken) {
-      return res.status(404).json('Not found');
-    }
-
-    await refreshToken.destroy();
-    return res.status(200).send();
-  } catch (err) {
-    return res.status(500).json(err);
+  if (!existingUser) {
+    return res.status(401).send();
   }
+
+  const isValidPassword = await existingUser.validPassword(password);
+  
+  if (isValidPassword) {
+    const accessToken = generateAccessToken(existingUser.toJSON());
+    const refreshToken = uuidv4();
+
+    await RefreshToken.forge({ refresh_token: refreshToken, user_id: existingUser.id }).save();
+
+    return res.status(200).json({
+      access_token: accessToken,
+      refresh_token: refreshToken
+    });
+  } else {
+    return res.status(401).send();
+  }
+}
+
+async function getAccessTokenByRefreshToken(req, res) {
+  const { refresh_token } = req.body;
+  const refreshToken = await RefreshToken.forge({ refresh_token }).fetch();
+
+  if (!refreshToken) {
+    return res.status(401).send();
+  }
+
+  const user = await User.forge({ id: refreshToken.toJSON().user_id }).fetch();
+  const accessToken = generateAccessToken(user.toJSON());
+
+  return res.status(200).json({
+    access_token: accessToken
+  });
 }
 
 function generateAccessToken(user) {
