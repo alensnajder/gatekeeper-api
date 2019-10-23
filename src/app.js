@@ -14,8 +14,6 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(passport.initialize());
 
-console.log(app.get('env'));
-
 app.use('/v1/auth', authRouter);
 app.use('/v1/users', usersRouter);
 app.use('/v1/gates', gatesRouter);
