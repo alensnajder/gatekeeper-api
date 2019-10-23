@@ -64,3 +64,14 @@ export async function remove(req, res, next) {
     return res.status(500).json(err);
   }
 }
+
+export async function updateStatus(req, res, next) {
+  try {
+    const { is_active } = req.body;
+    let user = await User.forge({ id: req.params.id }).fetch();
+    const savedUser = await user.save({ is_active });
+    return res.status(200).json(savedUser);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}

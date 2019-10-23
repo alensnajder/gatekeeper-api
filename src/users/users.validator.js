@@ -9,3 +9,9 @@ export const createUserValidator = celebrate({
     confirm_password: Joi.string().valid(Joi.ref('password')).required()
   })
 });
+
+export const updateUserStatusValidator = celebrate({
+  body: Joi.object().keys({
+    is_active: Joi.boolean().required()
+  })
+});
