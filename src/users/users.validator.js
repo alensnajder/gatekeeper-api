@@ -9,11 +9,3 @@ export const createUserValidator = celebrate({
     confirm_password: Joi.string().valid(Joi.ref('password')).required()
   })
 });
-
-export const updateUserValidator = celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().email().lowercase().required(),
-    first_name: Joi.string().required(),
-    last_name: Joi.string().required()
-  })
-});
