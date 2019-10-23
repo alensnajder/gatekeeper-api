@@ -25,8 +25,8 @@ export async function getById(req, res, next) {
 
 export async function create(req, res, next) {
   try {
-    await Gate.forge(req.body).save();
-    return res.status(201).send();
+    const savedGate = await Gate.forge(req.body).save();
+    return res.status(201).json(savedGate);
   } catch (err) {
     return res.status(500).json(err);
   }
