@@ -6,6 +6,11 @@ const User = bookshelf.Model.extend({
   tableName: 'users',
   hasTimestamps: true,
   hidden: ['password'],
+  parse: function (attrs) {
+    attrs['is_active'] = !!attrs['is_active'];
+    attrs['is_admin'] = !!attrs['is_admin'];
+    return attrs;
+  },
   records: function() {
     return this.hasMany(Record);
   },
