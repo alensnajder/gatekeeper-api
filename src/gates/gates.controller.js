@@ -25,10 +25,6 @@ export async function getById(req, res, next) {
 
 export async function create(req, res, next) {
   try {
-    if (!req.user.is_admin) {
-      return res.status(403).json('Forbidden');
-    }
-
     await Gate.forge(req.body).save();
     return res.status(201).send();
   } catch (err) {
@@ -38,10 +34,6 @@ export async function create(req, res, next) {
 
 export async function update(req, res, next) {
   try {
-    if (!req.user.is_admin) {
-      return res.status(403).json('Forbidden');
-    }
-
     const gate = await Gate.forge({ id: req.params.id }).fetch();
 
     if (!gate) {
@@ -56,11 +48,7 @@ export async function update(req, res, next) {
 }
 
 export async function remove(req, res, next) {
-  try {
-    if (!req.user.is_admin) {
-      return res.status(403).json('Forbidden');
-    }
-    
+  try {    
     const gate = await Gate.forge({ id: req.params.id }).fetch();
 
     if (!gate) {
