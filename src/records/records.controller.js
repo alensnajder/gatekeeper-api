@@ -1,4 +1,6 @@
 import Record from './records.model';
+import Gate from '../gates/gates.model';
+import * as GatesWhisperer from '../gates/gates.whisperer';
 
 export async function get(req, res, next) {
   try {
@@ -29,7 +31,14 @@ export async function create(req, res, next) {
       user_id: req.user.id,
       gate_id: req.body.gate_id
     };
+    
+    const gate = await Gate.forge({ id: record.gate_id }).fetch();
+    
+    if (!gate) {
+      return res.status(404).send();
+    }
 
+    GatesWhisperer.toggle(gate.toJSON().gpio_pin, gate.toJSON().duration);
     const savedRecord = await Record.forge(record).save();
     return res.status(201).json(savedRecord);
   } catch (err) {
