@@ -5,7 +5,7 @@ export async function get(req, res, next) {
     const users = await User.fetchAll();
     return res.status(200).json(users);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -19,7 +19,7 @@ export async function getById(req, res, next) {
 
     return res.status(200).json(user);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -28,7 +28,7 @@ export async function create(req, res, next) {
     const existingUser = await User.forge({ email: req.body.email }).fetch();
 
     if (existingUser) {
-      return res.status(409).json('User with that e-mail address already exists');
+      return res.status(409).send();
     }
 
     let user = req.body;
@@ -46,7 +46,7 @@ export async function create(req, res, next) {
     const savedUser = await User.forge(user).save();
     return res.status(201).json(savedUser);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -55,13 +55,13 @@ export async function remove(req, res, next) {
     const user = await User.forge({ id: req.params.id }).fetch();
 
     if (!user) {
-      return res.status(404).json('Not found');
+      return res.status(404).send();
     }
 
     await user.destroy();
     return res.status(200).send();
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -72,6 +72,6 @@ export async function updateStatus(req, res, next) {
     const savedUser = await user.save({ is_active });
     return res.status(200).json(savedUser);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }

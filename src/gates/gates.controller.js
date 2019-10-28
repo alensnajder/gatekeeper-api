@@ -5,7 +5,7 @@ export async function get(req, res, next) {
     const gates = await Gate.fetchAll();
     return res.status(200).json(gates);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -19,7 +19,7 @@ export async function getById(req, res, next) {
 
     return res.status(200).json(gate);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -28,7 +28,7 @@ export async function create(req, res, next) {
     const savedGate = await Gate.forge(req.body).save();
     return res.status(201).json(savedGate);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -43,7 +43,7 @@ export async function update(req, res, next) {
     await gate.save(req.body);
     return res.status(200).json(gate);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -58,6 +58,6 @@ export async function remove(req, res, next) {
     await gate.destroy();
     return res.status(200).send();
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }

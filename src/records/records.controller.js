@@ -7,7 +7,7 @@ export async function get(req, res, next) {
     const records = await Record.fetchAll({ withRelated: ['user', 'gate'] });
     return res.status(200).json(records);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -21,7 +21,7 @@ export async function getById(req, res, next) {
 
     return res.status(200).json(record);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -42,7 +42,7 @@ export async function create(req, res, next) {
     const savedRecord = await Record.forge(record).save();
     return res.status(201).json(savedRecord);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
 
@@ -57,6 +57,6 @@ export async function remove(req, res, next) {
     await record.destroy();
     return res.status(200).send();
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).send();
   }
 }
