@@ -11,6 +11,7 @@ import passportConfig from './config/passport';
 const app = express();
 
 app.use(express.json());
+app.disable('x-powered-by');
 app.use(morgan('dev'));
 app.use(passport.initialize());
 
