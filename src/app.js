@@ -12,8 +12,13 @@ const app = express();
 
 app.use(express.json());
 app.disable('x-powered-by');
-app.use(morgan('dev'));
 app.use(passport.initialize());
+
+if (app.get('env') === "production") {
+  app.use(morgan('combined'));
+} else {
+  app.use(morgan('dev'));
+}
 
 app.use('/v1/auth', authRouter);
 app.use('/v1/users', usersRouter);
