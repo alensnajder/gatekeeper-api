@@ -14,7 +14,7 @@
     "url": "git+https://github.com/alensnajder/gatekeeper-api.git"
   },
   "author": "Alen Snajder",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/alensnajder/gatekeeper-api/issues"
   },
