@@ -1,27 +1,5 @@
-![Gatekeeper](.github/logo.svg?sanitize=true "Gatekeeper logo")
-# Gatekeeper API
-Gatekeeper API is designed to run on Raspberry Pi, providing interface to control gates and simple user managment.
-# Prerequisites
-+ [Gatekeeper-CLI](https://github.com/alensnajder/gatekeeper-cli)
-# Installation
-Install dependencies
-```
-$ npm install
-```
-Run migrations
-```
-$ knex migrate:latest
-```
+MIT License
 
-Create a ```.env``` file and add required variables. For reference check [```.env.example```](https://github.com/alensnajder/gatekeeper-api/blob/master/.env.example).
-
-For development environment use ```npm start```, for production environment use ```npm run serve```.
-
-## Optional
-+ Use process manager [PM2](https://github.com/Unitech/pm2)
-+ Secure connection with SSL Certificate (e.g. [Let's Encrypt](https://letsencrypt.org/))
-# License
-```
 Copyright (c) 2019 Alen Snajder
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
