@@ -17,7 +17,7 @@ Create a ```.env``` file and add required variables. For reference check [```.en
 
 For development environment use ```npm start```, for production environment use ```npm run serve```.
 
-## Optional
+## Recommended
 + Use process manager [PM2](https://github.com/Unitech/pm2)
 + Secure connection with SSL Certificate (e.g. [Let's Encrypt](https://letsencrypt.org/))
 # License
