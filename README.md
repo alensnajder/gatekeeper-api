@@ -1,6 +1,6 @@
 ![Gatekeeper](.github/logo.svg?sanitize=true "Gatekeeper logo")
 # Gatekeeper API
-Gatekeeper API is designed to run on Raspberry Pi, providing interface to control gates and simple user managment.
+Gatekeeper API i designed to run on Raspberry Pi, providing interface to control gates and simple user managment.
 # Prerequisites
 + [Gatekeeper-CLI](https://github.com/alensnajder/gatekeeper-cli)
 # Installation
